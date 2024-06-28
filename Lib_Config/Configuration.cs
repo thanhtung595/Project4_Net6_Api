@@ -1,9 +1,12 @@
 ﻿using Lib_DatabaseEntity.DbContext_SQL_Server;
 using Lib_DatabaseEntity.Repository;
 using Lib_Services.Authoz;
+using Lib_Services.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +28,8 @@ namespace Lib_Config
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IAuthoz, Authoz>();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<ICustomCookieService, CustomCookieService>();
         }
 
         public static void RegisterAddCors(this IServiceCollection services)
@@ -34,12 +39,38 @@ namespace Lib_Config
                 options.AddPolicy("AllowAll",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins("http://26.0.169.91:3000", "http://26.78.185.194:5050", "http://localhost:5071")
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials()
                            .WithExposedHeaders("*");
                     });
+            });
+        }
+
+        public static void RegisterJwt(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    LifetimeValidator = (notBefore, expires, token, param) =>
+                    {
+                        return expires > DateTime.UtcNow; // Kiểm tra thời gian hết hạn
+                    },
+                    ValidateIssuerSigningKey = true
+                };
             });
         }
     }

@@ -10,5 +10,6 @@ namespace Lib_Models.Status
     {
         public bool isBool { get; set; }
         public string? message { get; set; }
+        public Object? obj { get; set; }
     }
 }
