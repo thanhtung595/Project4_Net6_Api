@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lib_DatabaseEntity.Migrations
 {
     [DbContext(typeof(Db_Context))]
-    [Migration("20240619085432_add_tb_Product")]
-    partial class add_tb_Product
+    [Migration("20240705102515_addnew_database")]
+    partial class addnew_database
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace Lib_DatabaseEntity.Migrations
                     b.Property<string>("fullName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("isAdmin")
                         .HasColumnType("bit");
 
@@ -62,6 +65,36 @@ namespace Lib_DatabaseEntity.Migrations
                     b.ToTable("Account");
                 });
 
+            modelBuilder.Entity("Lib_Models.Model_Entities.Bill", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("idAccount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("priceCost")
+                        .HasColumnType("real");
+
+                    b.Property<float>("subTotal")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("timeCreate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("idAccount");
+
+                    b.ToTable("Bill");
+                });
+
             modelBuilder.Entity("Lib_Models.Model_Entities.Brand", b =>
                 {
                     b.Property<int>("id")
@@ -69,6 +102,9 @@ namespace Lib_DatabaseEntity.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
@@ -81,7 +117,7 @@ namespace Lib_DatabaseEntity.Migrations
                     b.ToTable("Brand");
                 });
 
-            modelBuilder.Entity("Lib_Models.Model_Entities.CategoryChildren", b =>
+            modelBuilder.Entity("Lib_Models.Model_Entities.Cart", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -89,23 +125,34 @@ namespace Lib_DatabaseEntity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("idCategoryParents")
+                    b.Property<int>("count")
                         .HasColumnType("int");
 
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("idAccount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idProduct")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("priceTotal")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("timeCreate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
 
-                    b.HasIndex("idCategoryParents");
+                    b.HasIndex("idAccount");
 
-                    b.ToTable("CategoryChildren");
+                    b.HasIndex("idProduct");
+
+                    b.ToTable("Cart");
                 });
 
-            modelBuilder.Entity("Lib_Models.Model_Entities.CategoryParents", b =>
+            modelBuilder.Entity("Lib_Models.Model_Entities.Category", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -113,15 +160,58 @@ namespace Lib_DatabaseEntity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("lv")
+                        .HasColumnType("int");
+
                     b.Property<string>("name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("parentID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("timeCreate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("id");
 
-                    b.ToTable("CategoryParents");
+                    b.HasIndex("parentID");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Lib_Models.Model_Entities.ListProductBill", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("idBill")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idProduct")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("priceTotal")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("timeCreate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("idBill");
+
+                    b.HasIndex("idProduct");
+
+                    b.ToTable("ListProductBill");
                 });
 
             modelBuilder.Entity("Lib_Models.Model_Entities.Product", b =>
@@ -146,6 +236,9 @@ namespace Lib_DatabaseEntity.Migrations
 
                     b.Property<string>("img")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("isDelete")
                         .HasColumnType("int");
@@ -174,15 +267,62 @@ namespace Lib_DatabaseEntity.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("Lib_Models.Model_Entities.CategoryChildren", b =>
+            modelBuilder.Entity("Lib_Models.Model_Entities.Bill", b =>
                 {
-                    b.HasOne("Lib_Models.Model_Entities.CategoryParents", "CategoryParents")
+                    b.HasOne("Lib_Models.Model_Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("idCategoryParents")
+                        .HasForeignKey("idAccount")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CategoryParents");
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Lib_Models.Model_Entities.Cart", b =>
+                {
+                    b.HasOne("Lib_Models.Model_Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("idAccount")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lib_Models.Model_Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("idProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Lib_Models.Model_Entities.Category", b =>
+                {
+                    b.HasOne("Lib_Models.Model_Entities.Category", "ParentCategory")
+                        .WithMany()
+                        .HasForeignKey("parentID");
+
+                    b.Navigation("ParentCategory");
+                });
+
+            modelBuilder.Entity("Lib_Models.Model_Entities.ListProductBill", b =>
+                {
+                    b.HasOne("Lib_Models.Model_Entities.Bill", "Bill")
+                        .WithMany()
+                        .HasForeignKey("idBill")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lib_Models.Model_Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("idProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bill");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Lib_Models.Model_Entities.Product", b =>
@@ -193,7 +333,7 @@ namespace Lib_DatabaseEntity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lib_Models.Model_Entities.CategoryChildren", "CategoryChildren")
+                    b.HasOne("Lib_Models.Model_Entities.Category", "CategoryChildren")
                         .WithMany()
                         .HasForeignKey("idCategory")
                         .OnDelete(DeleteBehavior.Cascade)

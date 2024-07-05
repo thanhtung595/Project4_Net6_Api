@@ -1,6 +1,8 @@
 ﻿using Lib_DatabaseEntity.DbContext_SQL_Server;
 using Lib_DatabaseEntity.Repository;
 using Lib_Services.Authoz;
+using Lib_Services.Brand;
+using Lib_Services.Category;
 using Lib_Services.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,8 @@ namespace Lib_Config
             services.AddScoped<IAuthoz, Authoz>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<ICustomCookieService, CustomCookieService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IBrandService, BrandService>();
         }
 
         public static void RegisterAddCors(this IServiceCollection services)

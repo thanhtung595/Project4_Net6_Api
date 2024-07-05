@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lib_Models.Model_Entities
 {
-    public class Product : BaseEntity
+    public class ProductEntity : BaseEntity
     {
         public string? name { get; set; }
         public string? describe { get; set; }
@@ -21,9 +21,9 @@ namespace Lib_Models.Model_Entities
         public int idBrand { get; set; }
 
         [ForeignKey("idCategory")]
-        public virtual CategoryChildren? CategoryChildren { get; set; }
+        public virtual CategoryEntity? CategoryChildren { get; set; }
 
         [ForeignKey("idBrand")]
-        public virtual Brand? Brand { get; set; }  
+        public virtual BrandEntity? Brand { get; set; }  
     }
 }

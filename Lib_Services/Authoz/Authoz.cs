@@ -15,9 +15,9 @@ namespace Lib_Services.Authoz
 {
     public class Authoz : IAuthoz
     {
-        private readonly IRepository<Account> _accountRepository;
+        private readonly IRepository<AccountEntity> _accountRepository;
         private readonly IJwtService _jwtService;
-        public Authoz(IRepository<Account> accountRepository, IJwtService jwtService)
+        public Authoz(IRepository<AccountEntity> accountRepository, IJwtService jwtService)
         {
             _accountRepository = accountRepository;
             _jwtService = jwtService;
@@ -88,7 +88,7 @@ namespace Lib_Services.Authoz
 
             string hasPass = BCrypt.Net.BCrypt.HashPassword(register.userPass);
 
-            Account account = new Account
+            AccountEntity account = new AccountEntity
             {
                 userName = register.userName!.ToLower(),
                 userPass = hasPass,

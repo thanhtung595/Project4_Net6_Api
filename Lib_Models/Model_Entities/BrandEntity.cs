@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lib_Models.Model_Entities
 {
-    public class Brand : BaseEntity
+    public class BrandEntity : BaseEntity
     {
         public string? name { get; set; }
     }

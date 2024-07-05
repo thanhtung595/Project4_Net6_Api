@@ -11,6 +11,7 @@ namespace Lib_Models.Model_Entities
     {
         [Key]
         public int id { get; set; }
+        public bool isActive { get; set; }
         public DateTime timeCreate { get; set; }
     }
 }

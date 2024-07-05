@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lib_Models.Model_Entities
 {
-    public class Account : BaseEntity
+    public class AccountEntity : BaseEntity
     {
         public string? userName { get; set; }
         public string? userPass { get; set; }

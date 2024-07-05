@@ -16,13 +16,12 @@ namespace Lib_DatabaseEntity.DbContext_SQL_Server
             base.OnConfiguring(optionsBuilder);
         }
 
-        public DbSet<Account> Account { get; set; }
-        public DbSet<CategoryParents> CategoryParents { get; set; }
-        public DbSet<CategoryChildren> CategoryChildren { get; set; }
-        public DbSet<Brand> Brand { get; set; }
-        public DbSet<Product> Product { get; set; }
-        public DbSet<Cart> Cart { get; set; }
-        public DbSet<Bill> Bill { get; set; }
-        public DbSet<ListProductBill> ListProductBill { get; set; }
+        public DbSet<AccountEntity> Account { get; set; }
+        public DbSet<CategoryEntity> Category { get; set; }
+        public DbSet<BrandEntity> Brand { get; set; }
+        public DbSet<ProductEntity> Product { get; set; }
+        public DbSet<CartEntity> Cart { get; set; }
+        public DbSet<BillEntity> Bill { get; set; }
+        public DbSet<ListProductBillEntity> ListProductBill { get; set; }
     }
 }
