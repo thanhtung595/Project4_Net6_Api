@@ -11,6 +11,7 @@ namespace Lib_Services.Authoz
 {
     public interface IAuthoz
     {
-        Task<LoginModelTable> Login (LoginModel loginModel);
+        Task<StatusApplication> Login (LoginModel loginModel);
+        Task<StatusApplication> Register(RegisterModel register);
     }
 }

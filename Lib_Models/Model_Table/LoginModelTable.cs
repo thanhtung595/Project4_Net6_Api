@@ -8,8 +8,6 @@ namespace Lib_Models.Model_Table
 {
     public class LoginModelTable
     {
-        public bool isBool { get; set; }
-        public string? message { get; set; }
         public string? userName { get; set; }
         public string? fullName { get; set; }
         public string? phoneNumber { get; set; }

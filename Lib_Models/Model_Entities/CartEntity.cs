@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace Lib_Models.Model_Entities
 {
-    public class ListProductBill : BaseEntity
+    public class CartEntity : BaseEntity
     {
+        public int count { get; set; }
         public float priceTotal { get; set; }
-        public int idBill { get; set; }
+        public int idAccount { get; set; }
         public int idProduct { get; set; }
 
-        [ForeignKey("idBill")]
-        public virtual Bill? Bill { get; set; }
+        [ForeignKey("idAccount")]
+        public virtual AccountEntity? Account { get; set; }
 
         [ForeignKey("idProduct")]
-        public virtual Product? Product { get; set; }
+        public virtual ProductEntity? Product { get; set; }
     }
 }

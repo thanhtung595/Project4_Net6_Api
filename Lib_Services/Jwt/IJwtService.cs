@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lib_Models.Model_Entities
+namespace Lib_Services.Jwt
 {
-    public class Brand : BaseEntity
+    public interface IJwtService
     {
-        public string? name { get; set; }
+        Task<string> CreateJwt(int id_Account, string name_Role);
     }
 }
