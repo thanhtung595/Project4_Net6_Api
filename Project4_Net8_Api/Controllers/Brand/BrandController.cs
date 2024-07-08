@@ -1,4 +1,5 @@
-﻿using Lib_Models.Status;
+﻿using Lib_Models.Model_Entities;
+using Lib_Models.Status;
 using Lib_Services.Brand;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace Project4_Net8_Api.Controllers.Brand
         {
             _brandService = brandService;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -30,6 +32,17 @@ namespace Project4_Net8_Api.Controllers.Brand
                 return BadRequest(status.message);
             }
             return StatusCode(201, status.message);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Edit(BrandEntity brand)
+        {
+            StatusApplication status = await _brandService.Update(brand);
+            if (status.isBool)
+            {
+                return StatusCode(204);
+            }
+            return StatusCode(400, status);
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Lib_Services.Category
     {
         Task<List<CategoryModel_GetAll>> GetAll();
         Task<StatusApplication> Add(CategoryModel category);
+        Task<StatusApplication> Update(int id , string name, bool isActive);
     }
 }

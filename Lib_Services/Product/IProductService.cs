@@ -14,5 +14,6 @@ namespace Lib_Services.Product
     {
         Task<List<ProductModel_Get>> GetAll();
         Task<StatusApplication> Add(ProductPost product);
+        Task<StatusApplication> Update(ProductMode_Update product);
     }
 }

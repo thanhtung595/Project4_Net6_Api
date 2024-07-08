@@ -11,6 +11,7 @@ namespace Lib_Models.Model_Get
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+        public bool isActive { get; set; }
         public List<CategoryModel_GetAll> SubCategories { get; set; } = new List<CategoryModel_GetAll>();
     }
 }

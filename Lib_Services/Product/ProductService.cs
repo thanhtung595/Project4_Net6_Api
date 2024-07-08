@@ -76,6 +76,32 @@ namespace Lib_Services.Product
             return rel;
         }
 
+        public async Task<StatusApplication> Update(ProductMode_Update product)
+        {
+            var checkName = await _repositoryProduct.GetAll(x => x.id != product.id && (x.name!.ToLower() == product.name!.ToLower()));
+            if (checkName.Any())
+            {
+                return new StatusApplication { isBool = false, message = "Name product đã tồn tại" };
+            }
+            var productUpdate = await _repositoryProduct.GetById(product.id);
+            string fileName = productUpdate.img!;
+            productUpdate.name = product.name;
+            productUpdate.describe = product.describe;
+            if (product.img != null)
+            {
+                productUpdate.img = productUpdate.name + TypeFile(product.img!);
+            }
+            productUpdate.price = productUpdate.price;
+            productUpdate.priceSale = productUpdate.priceSale;
+            productUpdate.isSale = productUpdate.isSale;
+            productUpdate.isActive = productUpdate.isActive;
+            productUpdate.countProduct = product.countProduct;
+            productUpdate.idCategory = product.idCategory;
+            productUpdate.idBrand = product.idBrand;
+            await _repositoryProduct.Commit();
+            return new StatusApplication { isBool = true, message = fileName };
+        }
+
         private string TypeFile(IFormFile file)
         {
             IFormFile fileAdd = file;

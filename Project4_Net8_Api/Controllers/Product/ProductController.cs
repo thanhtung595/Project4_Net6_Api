@@ -43,5 +43,27 @@ namespace Project4_Net8_Api.Controllers.Product
             }
             return BadRequest(status.message);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(ProductMode_Update product)
+        {
+            StatusApplication status = await _productService.Update(product);
+            if (status.isBool)
+            {
+                if (product.img != null)
+                {
+                    FileSrc.DeleteFile(status.message!, "wwwroot/img/product");
+                    FileAddRequest addFile = new FileAddRequest
+                    {
+                        file = product.img,
+                        newFileName = product.name,
+                        path = "wwwroot/img/product"
+                    };
+                    FileSrc.AddFileInFolder_FileSrc(addFile);
+                }
+                return StatusCode(204);
+            }
+            return StatusCode(400, status);
+        }
     }
 }

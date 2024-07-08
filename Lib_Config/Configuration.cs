@@ -45,7 +45,7 @@ namespace Lib_Config
                 options.AddPolicy("AllowAll",
                     builder =>
                     {
-                        builder.WithOrigins("http://26.0.169.91:3000", "http://26.78.185.194:5050", "http://localhost:5071")
+                        builder.WithOrigins("http://localhost:3000")
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials()
