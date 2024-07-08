@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Project4_Net8_Api.Controllers
+namespace Project4_Net8_Api.Controllers.Brand
 {
     [Route("api/brand")]
     [ApiController]
@@ -29,7 +29,7 @@ namespace Project4_Net8_Api.Controllers
             {
                 return BadRequest(status.message);
             }
-            return StatusCode(201 , status.message);
+            return StatusCode(201, status.message);
         }
     }
 }
