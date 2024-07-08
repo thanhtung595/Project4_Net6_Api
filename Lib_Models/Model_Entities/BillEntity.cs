@@ -10,7 +10,6 @@ namespace Lib_Models.Model_Entities
     public class BillEntity : BaseEntity
     {
         public float subTotal{ get; set; }
-        public float priceCost{ get; set; }
         public int idAccount { get; set; }
 
         [ForeignKey("idAccount")]

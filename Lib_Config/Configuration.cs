@@ -1,7 +1,9 @@
-﻿using Lib_DatabaseEntity.DbContext_SQL_Server;
+﻿using Lib_DatabaseEntity;
+using Lib_DatabaseEntity.DbContext_SQL_Server;
 using Lib_DatabaseEntity.Repository;
 using Lib_Services.Authoz;
 using Lib_Services.Brand;
+using Lib_Services.Cart;
 using Lib_Services.Category;
 using Lib_Services.Jwt;
 using Lib_Services.Product;
@@ -36,6 +38,7 @@ namespace Lib_Config
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICartService, CartService>();
         }
 
         public static void RegisterAddCors(this IServiceCollection services)
@@ -77,6 +80,14 @@ namespace Lib_Config
                     },
                     ValidateIssuerSigningKey = true
                 };
+            });
+        }
+        public static void RegisterRoleAuthorition(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(IdentityData.AdminPolicyName, p =>
+                p.RequireClaim(IdentityData.TypeRole, IdentityData.AdminScurity));
             });
         }
     }
