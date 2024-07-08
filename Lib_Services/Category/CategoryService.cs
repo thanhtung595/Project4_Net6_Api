@@ -70,6 +70,21 @@ namespace Lib_Services.Category
             return rootCategories;
         }
 
+        public async Task<StatusApplication> Update(int id, string name, bool isActive)
+        {
+            var check = await _repositoryCategory.GetAll(x => x.id != id && (x.name!.ToLower() == name.ToLower()));
+            if (check.Any())
+            {
+                return new StatusApplication { isBool = false, message = "Name đã tồn tại" };
+            }
+            var cate = await _repositoryCategory.GetById(id);
+            cate.name = name;
+            cate.isActive = isActive;
+
+            await _repositoryCategory.Commit();
+            return new StatusApplication { isBool = true };
+        }
+
         private CategoryModel_GetAll MapToCategoryModel_GetAll(CategoryEntity category, ILookup<int?, CategoryEntity> lookup)
         {
             // Lấy danh sách các danh mục con của danh mục hiện tại và chuyển đổi chúng thành mô hình CategoryModel_GetAll
@@ -80,6 +95,7 @@ namespace Lib_Services.Category
             {
                 Id = category.id,
                 Name = category.name,
+                isActive = category.isActive,
                 SubCategories = subCategories
             };
         }

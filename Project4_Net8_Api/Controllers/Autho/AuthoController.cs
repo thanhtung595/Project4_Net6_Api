@@ -28,10 +28,10 @@ namespace Project4_Net8_Api.Controllers.Autho
             StatusApplication status = await _iAuthoz.Login(login);
             if (status.isBool)
             {
-                _customCookieService.SetCookieAllTime("26.78.185.194", "accesstoken", status.message!);
+                _customCookieService.SetCookieAllTime("localhost", "accesstoken", status.message!);
                 return Ok(status.obj);
             }
-            return BadRequest(status);
+            return BadRequest(status); 
         }
 
         [Route("register")]

@@ -34,6 +34,18 @@ namespace Lib_Services.Brand
             return new StatusApplication { isBool = true, message = "success" };
         }
 
+        public async Task<StatusApplication> Update(BrandEntity brand)
+        {
+            var checkName = await _brandRepository.GetAll(x => x.id != brand.id && (x.name!.ToLower() == brand.name!.ToLower()));
+            if (checkName.Any())
+            {
+                return new StatusApplication { isBool = false, message = "Name đã tồn tại" };
+            }
+            _brandRepository.Update(brand);
+            await _brandRepository.Commit();
+            return new StatusApplication { isBool = true, message = "success" };
+        }
+
         public async Task<List<BrandEntity>> GetAll()
         {
             var data = await _brandRepository.GetAll();

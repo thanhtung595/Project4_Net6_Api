@@ -33,5 +33,23 @@ namespace Project4_Net8_Api.Controllers.Category
             }
             return StatusCode(201);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateCate cate)
+        {
+            StatusApplication status = await _categoryService.Update(cate.id, cate.name!, cate.isActive);
+            if (!status.isBool)
+            {
+                return StatusCode(400, status);
+            }
+            return StatusCode(204);
+        }
+
+        public class UpdateCate
+        {
+            public int id { get; set; }
+            public string? name { get; set; }
+            public bool isActive { get; set; }
+        }
     }
 }

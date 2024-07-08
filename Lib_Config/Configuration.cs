@@ -4,6 +4,7 @@ using Lib_Services.Authoz;
 using Lib_Services.Brand;
 using Lib_Services.Category;
 using Lib_Services.Jwt;
+using Lib_Services.Product;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,7 @@ namespace Lib_Config
             services.AddScoped<ICustomCookieService, CustomCookieService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         public static void RegisterAddCors(this IServiceCollection services)
@@ -43,7 +45,7 @@ namespace Lib_Config
                 options.AddPolicy("AllowAll",
                     builder =>
                     {
-                        builder.WithOrigins("http://26.0.169.91:3000", "http://26.78.185.194:5050", "http://localhost:5071")
+                        builder.WithOrigins("http://localhost:3000")
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials()

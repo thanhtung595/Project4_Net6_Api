@@ -12,5 +12,6 @@ namespace Lib_Services.Brand
     {
         Task<List<BrandEntity>> GetAll();
         Task<StatusApplication> Add(string  name);  
+        Task<StatusApplication> Update(BrandEntity brand);
     }
 }
