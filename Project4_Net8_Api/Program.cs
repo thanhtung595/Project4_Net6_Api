@@ -1,4 +1,5 @@
 ﻿using Lib_Config;
+using Project4_Net8_Api.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,6 +21,9 @@ builder.Services.RegisterJwt(builder.Configuration);
 //Scoped
 builder.Services.RegisterRepositoryScoped();
 
+// Check role Authorition
+builder.Services.RegisterRoleAuthorition();
+
 // AddHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
@@ -32,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors("AllowAll");
+app.UseMiddleware<MiddlewareAddAccessTokenInHeader>();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

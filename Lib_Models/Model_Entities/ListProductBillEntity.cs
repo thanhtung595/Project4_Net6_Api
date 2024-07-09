@@ -9,7 +9,8 @@ namespace Lib_Models.Model_Entities
 {
     public class ListProductBillEntity : BaseEntity
     {
-        public float priceTotal { get; set; }
+        public float priceCost { get; set; }
+        public int countProduct { get; set; }
         public int idBill { get; set; }
         public int idProduct { get; set; }
 

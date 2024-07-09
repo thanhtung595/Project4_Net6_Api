@@ -9,5 +9,6 @@ namespace Lib_Services.Jwt
     public interface IJwtService
     {
         Task<string> CreateJwt(int id_Account, string name_Role);
+        Task<int> GetIdAccount();
     }
 }

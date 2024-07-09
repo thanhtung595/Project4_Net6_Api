@@ -1,8 +1,10 @@
 ﻿using Azure.Core;
+using Lib_DatabaseEntity;
 using Lib_Models.Model_Post;
 using Lib_Models.Model_Table;
 using Lib_Models.Status;
 using Lib_Services.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project4_Net8_Api.Service;
 
@@ -26,6 +28,7 @@ namespace Project4_Net8_Api.Controllers.Product
             return Ok(await  _productService.GetAll());
         }
 
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpPost]
         public async Task<IActionResult> Add(ProductPost productPost)
         {
@@ -44,6 +47,7 @@ namespace Project4_Net8_Api.Controllers.Product
             return BadRequest(status.message);
         }
 
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpPut]
         public async Task<IActionResult> Update(ProductMode_Update product)
         {

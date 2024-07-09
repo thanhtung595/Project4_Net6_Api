@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace Lib_Services.Jwt
     public class JwtService : IJwtService
     {
         private readonly IConfiguration _configuration;
-        public JwtService(IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public JwtService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<string> CreateJwt(int id_Account, string name_Role)
         {
@@ -40,6 +43,24 @@ namespace Lib_Services.Jwt
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
             return await Task.FromResult(tokenString);
+        }
+
+        public async Task<int> GetIdAccount()
+        {
+            if (!_httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
+            {
+                return 0;
+            }
+            var tokenHeaders = authorizationHeader!.ToString().Split(' ').Last();
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(tokenHeaders);
+            var userIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == "idAccount");
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var idTokenGuidParse))
+            {
+                return 0;
+            }
+
+            return await Task.FromResult(idTokenGuidParse);
         }
     }
 }

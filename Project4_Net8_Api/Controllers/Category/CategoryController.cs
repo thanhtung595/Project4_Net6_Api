@@ -1,6 +1,8 @@
-﻿using Lib_Models.Model_Post;
+﻿using Lib_DatabaseEntity;
+using Lib_Models.Model_Post;
 using Lib_Models.Status;
 using Lib_Services.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,6 +25,7 @@ namespace Project4_Net8_Api.Controllers.Category
             return Ok(await _categoryService.GetAll());
         }
 
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpPost]
         public async Task<IActionResult> Add(CategoryModel category)
         {
@@ -34,6 +37,7 @@ namespace Project4_Net8_Api.Controllers.Category
             return StatusCode(201);
         }
 
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpPut]
         public async Task<IActionResult> Update(UpdateCate cate)
         {
