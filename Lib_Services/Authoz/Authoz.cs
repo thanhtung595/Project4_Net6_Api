@@ -69,6 +69,11 @@ namespace Lib_Services.Authoz
             };
         }
 
+        public Task Logout()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<StatusApplication> Register(RegisterModel register)
         {
             var emailCheck = await _accountRepository.GetAll(x => x.userName!.ToLower() == register.userName!.ToLower()

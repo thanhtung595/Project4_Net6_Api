@@ -13,5 +13,6 @@ namespace Lib_Services.Authoz
     {
         Task<StatusApplication> Login (LoginModel loginModel);
         Task<StatusApplication> Register(RegisterModel register);
+        Task Logout();
     }
 }
