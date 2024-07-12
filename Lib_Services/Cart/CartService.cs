@@ -60,6 +60,7 @@ namespace Lib_Services.Cart
             {
                 id = x.id,
                 idProduct = x.Product!.id,
+                nameProduct = x.Product.name,
                 imgProduct = "img/product/"+x.Product.img,
                 count = x.count,
                 priceProduct = x.Product.priceSale,

@@ -9,6 +9,7 @@ namespace Lib_Models.Model_Get
 {
     public class CartGetAll : BaseEntity
     {
+        public string? nameProduct { get; set; }
         public int count { get; set; }
         public int idProduct { get; set; }
         public string? imgProduct { get; set; }

@@ -3,6 +3,7 @@ using Lib_Models.Model_Table;
 using Lib_Models.Status;
 using Lib_Services.Authoz;
 using Lib_Services.Jwt;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -44,6 +45,14 @@ namespace Project4_Net8_Api.Controllers.Autho
                 return Ok(status);
             }
             return BadRequest(status);
+        }
+
+        [Route("logout"), Authorize]
+        [HttpDelete]
+        public IActionResult Logout()
+        {
+            _customCookieService.DeleteCokie("accesstoken");
+            return Ok();
         }
     }
 }
